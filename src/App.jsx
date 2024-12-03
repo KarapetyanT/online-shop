@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import './App.css'
+import { BasketTable } from './components/basket-table';
+import { ProductList } from './components/product-list';
+import { Header } from './components/header';
 
 
 function App() {
@@ -118,84 +121,21 @@ function App() {
 
   return (
     <>
-      <header className="bg-gray-800 text-white py-6">
-        <h1 className="text-4xl font-bold text-center">Online Shop</h1>
-      </header>
+      <Header />
 
-      {/* Product List */}
-      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {products.map((item) => (
-          <div
-            key={item.id}
-            className="bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            <div className="w-24 h-24 bg-gray-300 rounded-full overflow-hidden mb-4">
-              <img
-                src={item.photo}
-                alt={item.title}
-                className="object-cover w-full h-full"
-              />
-            </div>
-            <h2 className="text-xl text-white font-semibold mb-2">{item.title}</h2>
-            <p className="text-lg text-purple-400">{item.price} USD</p>
-            <small className="text-purple-300">{item.category}</small>
-            <button 
-              onClick={() => moveToCart(item)}
-              className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-500 transition-colors duration-200"
-            >
-              Add to Basket
-            </button>
-          </div>
-        ))}
-      </div>
+      <ProductList
+       products={products} 
+       onMoveToCart={moveToCart} 
+       />
 
-      {/* Basket Table */}
-      <div className="p-8 bg-gray-700 rounded-lg shadow-lg">
-        <h2 className="text-2xl text-white font-semibold mb-4">Your Basket</h2>
-        <table className="min-w-full bg-gray-800 text-white rounded-lg overflow-hidden">
-          <thead className="border-b-2 border-purple-600">
-            <tr>
-              <th className="py-3 px-4">Title</th>
-              <th className="py-3 px-4">Price</th>
-              <th className="py-3 px-4">Count</th>
-              <th className="py-3 px-4">Subtotal</th>
-              <th className="py-3 px-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {basket.map((item) => (
-              <tr key={item.id} className="border-b border-purple-600">
-                <td className="py-3 px-4">{item.title}</td>
-                <td className="py-3 px-4">{item.price} USD</td>
-                <td className="py-3 px-4">{item.count}</td>
-                <td className="py-3 px-4">{item.price * item.count} USD</td>
-                <td className="py-3 px-4 space-x-2">
-                  <button
-                  onClick={() => quantityUp(item)}
-                    className="px-3 py-1 bg-purple-600 rounded-full hover:bg-purple-500 transition-colors duration-200"
-                  >
-                    +
-                  </button>
-                  <button
-                    onClick={() => quantityDown(item)}
-                    className="px-3 py-1 bg-purple-600 rounded-full hover:bg-purple-500 transition-colors duration-200"
-                  >
-                    -
-                  </button>
-                  <button
-                    onClick={() => removeProduct(item)}
-                    className="px-3 py-1 bg-red-600 rounded-full hover:bg-red-500 transition-colors duration-200"
-                  >
-                    x
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <BasketTable
+      basket={basket}
+      onQuantityUp={quantityUp}
+      onQuantityDown={quantityDown}
+      onRemoveProduct={removeProduct}
+      />  
     </>
-  );
+  )
 }
 
-export default App;
+export default App
